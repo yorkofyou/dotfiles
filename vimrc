@@ -83,12 +83,3 @@ inoremap <Down>  <ESC>:echoe "Use j"<CR>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
-
-" Plugins will be downloaded under the specified directory.
-call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
-
-" Declare the list of plugins.
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-
-" List ends here. Plugins become visible to Vim after this call.
-call plug#end()
