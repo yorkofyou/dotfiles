@@ -9,7 +9,11 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/yorkyou/.oh-my-zsh"
+if [[ "$(hostname)" == "Yorks-Air" ]]; then
+    export ZSH="/Users/yorkyou/.oh-my-zsh"
+elif [[ "$(hostname)" == "PC-YORK" ]]; then
+    export ZSH="/home/york/.oh-my-zsh"
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -107,6 +111,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 
 bindkey -v
@@ -118,7 +125,82 @@ setopt HIST_IGNORE_SPACE
 
 if [[ "$(uname)" == "Darwin" ]]; then
 	[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh;
+elif [[ "$(uname)" == "Linux" ]]; then
+    # added by Anaconda3 5.3.1 installer
+    # >>> conda init >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$(CONDA_REPORT_ERRORS=false '/home/york/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        \eval "$__conda_setup"
+    else
+        if [ -f "/home/york/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/home/york/anaconda3/etc/profile.d/conda.sh"
+            CONDA_CHANGEPS1=false conda activate base
+        else
+            \export PATH="/home/york/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda init <<<
+    #
+    # added by Anaconda3 5.3.1 installer
+    # >>> conda init >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$(CONDA_REPORT_ERRORS=false '/home/york/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        \eval "$__conda_setup"
+    else
+        if [ -f "/home/york/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/home/york/anaconda3/etc/profile.d/conda.sh"
+            CONDA_CHANGEPS1=false conda activate base
+        else
+            \export PATH="/home/york/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda init <<<
+
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    source /usr/share/doc/fzf/examples/completion.zsh
+    source /usr/share/autojump/autojump.sh
+
+    export GPG_TTY="$(tty)"
+fi
+if [[ "$(hostname)" == "PC-YORK" ]]; then
+    # Fetch Windows ip address inside WSL environment
+    WINDOWS_IP=$(ip route | grep default | awk '{print $3}')
+    PROXY_HTTP="http://${WINDOWS_IP}:10811"
+    PROXY_SOCKS5="${WINDOWS_IP}:10810"
+    
+    # Git & SSH for Git proxy
+    proxy_git () {
+      git config --global http.https://github.com.proxy ${PROXY_HTTP}
+      if ! grep -qF "Host github.com" ~/.ssh/config ; then
+        echo "Host github.com" >> ~/.ssh/config
+        echo "  User git" >> ~/.ssh/config
+        echo "  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" >> ~/.ssh/config
+      else
+        lino=$(($(awk '/Host github.com/{print NR}'  ~/.ssh/config)+2))
+        sed -i "${lino}c\  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" ~/.ssh/config
+      fi
+    }
+    
+    # Set proxy
+    set_proxy () {
+      export http_proxy="${PROXY_HTTP}"
+      export https_proxy="${PROXY_HTTP}"
+      proxy_git
+    }
+    
+    # Unset proxy
+    unset_proxy () {
+      unset http_proxy
+      unset https_proxy
+      git config --global --unset http.https://github.com.proxy
+    }
+
+    # Set alias
+    alias proxy=set_proxy
+    alias deproxy=unset_proxy
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
