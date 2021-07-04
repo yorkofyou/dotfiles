@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-if [[ "$(hostname)" == "Yorks-Air" ]]; then
+if [[ "$(hostname)" == "Yorks-Air.lan" ]]; then
     export ZSH="/Users/yorkyou/.oh-my-zsh"
 elif [[ "$(hostname)" == "PC-YORK" ]]; then
     export ZSH="/home/york/.oh-my-zsh"
