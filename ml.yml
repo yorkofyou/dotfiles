@@ -1,0 +1,23 @@
+name: ml
+channels:
+  - conda-forge
+  - defaults
+  - pytorch
+dependencies:
+  - flask
+  - jupyterlab
+  - numpy
+  - pandas
+  - pillow
+  - pip
+  - pip:
+    - pytorch-lightning
+  - python=3.7
+  - pytorch
+  - requests
+  - seaborn
+  - scikit-learn
+  - scipy
+  - torchvision
+  - tensorboard
+  - tqdm
