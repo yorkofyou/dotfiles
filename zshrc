@@ -126,39 +126,6 @@ setopt HIST_IGNORE_SPACE
 if [[ "$(uname)" == "Darwin" ]]; then
 	[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh;
 elif [[ "$(uname)" == "Linux" ]]; then
-    # added by Anaconda3 5.3.1 installer
-    # >>> conda init >>>
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$(CONDA_REPORT_ERRORS=false '/home/york/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        \eval "$__conda_setup"
-    else
-        if [ -f "/home/york/anaconda3/etc/profile.d/conda.sh" ]; then
-# . "/home/york/anaconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
-            CONDA_CHANGEPS1=false conda activate base
-        else
-            \export PATH="/home/york/anaconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-    # <<< conda init <<<
-    #
-    # added by Anaconda3 5.3.1 installer
-    # >>> conda init >>>
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$(CONDA_REPORT_ERRORS=false '/home/york/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        \eval "$__conda_setup"
-    else
-        if [ -f "/home/york/anaconda3/etc/profile.d/conda.sh" ]; then
-# . "/home/york/anaconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
-            CONDA_CHANGEPS1=false conda activate base
-        else
-            \export PATH="/home/york/anaconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-    # <<< conda init <<<
 
     source /usr/share/doc/fzf/examples/key-bindings.zsh
     source /usr/share/doc/fzf/examples/completion.zsh
@@ -251,6 +218,23 @@ elif [[ "$(hostname)" == "PC-YORK" ]]; then
     # Set alias
     alias proxy=set_proxy
     alias deproxy=unset_proxy
+
+    # added by Anaconda3 5.3.1 installer
+    # >>> conda init >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$(CONDA_REPORT_ERRORS=false '/home/york/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        \eval "$__conda_setup"
+    else
+        if [ -f "/home/york/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/home/york/anaconda3/etc/profile.d/conda.sh"
+            CONDA_CHANGEPS1=false conda activate base
+        else
+            \export PATH="/home/york/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda init <<<
 
 fi
 
