@@ -15,6 +15,7 @@ dependencies:
   - python=3.7
   - pytorch
   - requests
+  - rich
   - seaborn
   - scikit-learn
   - scipy
