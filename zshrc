@@ -11,8 +11,8 @@ fi
 # Path to your oh-my-zsh installation.
 if [[ "$(hostname)" == *"York"*"Air"* ]]; then
     export ZSH="/Users/yorkyou/.oh-my-zsh"
-elif [[ "$(hostname)" == "PC-YORK" ]]; then
-    export ZSH="/home/york/.oh-my-zsh"
+elif [[ "$(hostname)" == "York"*"PC" ]]; then
+    export ZSH="/home/yorkyou/.oh-my-zsh"
 fi
 
 # Set name of the theme to load --- if set to "random", it will
@@ -175,18 +175,19 @@ if [[ "$(hostname)" == *"York"*"Air"* ]]; then
         eval "$__conda_setup"
     else
         if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-            . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+# . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
         else
             export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
         fi
     fi
     unset __conda_setup
     # <<< conda initialize <<<
-elif [[ "$(hostname)" == "PC-YORK" ]]; then
+
+elif [[ "$(hostname)" == "York"*"PC" ]]; then
     # Fetch Windows ip address inside WSL environment
     WINDOWS_IP=$(ip route | grep default | awk '{print $3}')
-    PROXY_HTTP="http://${WINDOWS_IP}:10811"
-    PROXY_SOCKS5="${WINDOWS_IP}:10810"
+    PROXY_HTTP="http://${WINDOWS_IP}:7890"
+    PROXY_SOCKS5="${WINDOWS_IP}:7890"
     
     # Git & SSH for Git proxy
     proxy_git () {
@@ -219,22 +220,22 @@ elif [[ "$(hostname)" == "PC-YORK" ]]; then
     alias proxy=set_proxy
     alias deproxy=unset_proxy
 
-    # added by Anaconda3 5.3.1 installer
-    # >>> conda init >>>
+    # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$(CONDA_REPORT_ERRORS=false '/home/york/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+    __conda_setup="$('/home/yorkyou/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
-        \eval "$__conda_setup"
+        eval "$__conda_setup"
     else
-        if [ -f "/home/york/anaconda3/etc/profile.d/conda.sh" ]; then
-            . "/home/york/anaconda3/etc/profile.d/conda.sh"
-            CONDA_CHANGEPS1=false conda activate base
+        if [ -f "/home/yorkyou/mambaforge/etc/profile.d/conda.sh" ]; then
+            . "/home/yorkyou/mambaforge/etc/profile.d/conda.sh"
         else
-            \export PATH="/home/york/anaconda3/bin:$PATH"
+            export PATH="/home/yorkyou/mambaforge/bin:$PATH"
         fi
     fi
     unset __conda_setup
-    # <<< conda init <<<
+    # <<< conda initialize <<<
 
 fi
+
+
 
