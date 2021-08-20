@@ -2,7 +2,6 @@ name: ml
 channels:
   - conda-forge
   - defaults
-  - pytorch
 dependencies:
   - flask
   - jupyterlab
@@ -11,9 +10,11 @@ dependencies:
   - pillow
   - pip
   - pip:
+    - pyspark[sql,ml,mllib]
+    - pytorch
     - pytorch-lightning
+    - torchvision
   - python=3.7
-  - pytorch
   - requests
   - rich
   - seaborn
