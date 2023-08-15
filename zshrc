@@ -83,7 +83,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-syntax-highlighting history-substring-search zsh-autosuggestions)
 
-source $ZSH/oh-my-zsh.sh
+source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
 # User configuration
 
@@ -118,18 +118,10 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 
 bindkey -v
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # Preventing commands with a leading space from being included
 setopt HIST_IGNORE_SPACE
 
-if [[ "$(uname)" == "Darwin" ]]; then
-	[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh;
-elif [[ "$(uname)" == "Linux" ]]; then
-
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-    source /usr/share/doc/fzf/examples/completion.zsh
-    source /usr/share/autojump/autojump.sh
+if [[ "$(uname)" == "Linux" ]]; then
 
     export GPG_TTY="$(tty)"
 fi
