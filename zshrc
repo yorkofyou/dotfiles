@@ -9,10 +9,10 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-if [[ "$(hostname)" == *"York"*"Air"* ]]; then
-    export ZSH="/Users/yorkyou/.oh-my-zsh"
-elif [[ "$(hostname)" == "York"*"PC" ]]; then
+if [[ "$(hostname)" == "York"*"PC" ]]; then
     export ZSH="/home/yorkyou/.oh-my-zsh"
+else
+    export ZSH="/Users/yorkyou/.oh-my-zsh"
 fi
 
 # Set name of the theme to load --- if set to "random", it will
@@ -122,60 +122,9 @@ bindkey -v
 setopt HIST_IGNORE_SPACE
 
 if [[ "$(uname)" == "Linux" ]]; then
-
     export GPG_TTY="$(tty)"
 fi
-if [[ "$(hostname)" == *"York"*"Air"* ]]; then
-    PROXY_HTTP="http://127.0.0.1:7890"
-    PROXY_SOCKS5="127.0.0.1:7890"
-    
-    # Git & SSH for Git proxy
-    proxy_git () {
-      git config --global http.https://github.com.proxy ${PROXY_HTTP}
-      if ! grep -qF "Host github.com" ~/.ssh/config ; then
-        echo "Host github.com" >> ~/.ssh/config
-        echo "  User git" >> ~/.ssh/config
-        echo "  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" >> ~/.ssh/config
-      else
-        lino=$(($(awk '/Host github.com/{print NR}'  ~/.ssh/config)+2))
-        sed -i "${lino}c\  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" ~/.ssh/config
-      fi
-    }
-    
-    # Set proxy
-    set_proxy () {
-      export http_proxy="${PROXY_HTTP}"
-      export https_proxy="${PROXY_HTTP}"
-      proxy_git
-    }
-    
-    # Unset proxy
-    unset_proxy () {
-      unset http_proxy
-      unset https_proxy
-      git config --global --unset http.https://github.com.proxy
-    }
-
-    # Set alias
-    alias proxy=set_proxy
-    alias deproxy=unset_proxy
-
-    # >>> conda initialize >>>
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-# . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
-        else
-            export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-    # <<< conda initialize <<<
-
-elif [[ "$(hostname)" == "York"*"PC" ]]; then
+if [[ "$(hostname)" == "York"*"PC" ]]; then
     # Fetch Windows ip address inside WSL environment
     WINDOWS_IP=$(ip route | grep default | awk '{print $3}')
     PROXY_HTTP="http://${WINDOWS_IP}:7890"
@@ -219,7 +168,7 @@ elif [[ "$(hostname)" == "York"*"PC" ]]; then
         eval "$__conda_setup"
     else
         if [ -f "/home/yorkyou/mambaforge/etc/profile.d/conda.sh" ]; then
-            . "/home/yorkyou/mambaforge/etc/profile.d/conda.sh"
+# . "/home/yorkyou/mambaforge/etc/profile.d/conda.sh"  # commented out by conda initialize
         else
             export PATH="/home/yorkyou/mambaforge/bin:$PATH"
         fi
@@ -227,7 +176,53 @@ elif [[ "$(hostname)" == "York"*"PC" ]]; then
     unset __conda_setup
     # <<< conda initialize <<<
 
+else
+    PROXY_HTTP="http://127.0.0.1:7890"
+    PROXY_SOCKS5="127.0.0.1:7890"
+    
+    # Git & SSH for Git proxy
+    proxy_git () {
+      git config --global http.https://github.com.proxy ${PROXY_HTTP}
+      if ! grep -qF "Host github.com" ~/.ssh/config ; then
+        echo "Host github.com" >> ~/.ssh/config
+        echo "  User git" >> ~/.ssh/config
+        echo "  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" >> ~/.ssh/config
+      else
+        lino=$(($(awk '/Host github.com/{print NR}'  ~/.ssh/config)+2))
+        sed -i "${lino}c\  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" ~/.ssh/config
+      fi
+    }
+    
+    # Set proxy
+    set_proxy () {
+      export http_proxy="${PROXY_HTTP}"
+      export https_proxy="${PROXY_HTTP}"
+      proxy_git
+    }
+    
+    # Unset proxy
+    unset_proxy () {
+      unset http_proxy
+      unset https_proxy
+      git config --global --unset http.https://github.com.proxy
+    }
+
+    # Set alias
+    alias proxy=set_proxy
+    alias deproxy=unset_proxy
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+# . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
+        else
+# export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"  # commented out by conda initialize
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
 fi
-
-
-

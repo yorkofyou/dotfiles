@@ -3,24 +3,23 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - flask
-  - jupyterlab
-  - numpy
-  - pandas
-  - pillow
   - pip
   - pip:
+    - fastapi[standard]
+    - jupyterlab
+    - numpy
+    - pandas
+    - pillow
     - pyspark[sql,ml,mllib]
-    - pytorch
+    - torch
     - pytorch-lightning
+    - requests
+    - rich
+    - seaborn
+    - scikit-learn
+    - scipy
+    - tensorboard
     - torchvision
-  - python=3.7
-  - requests
-  - rich
-  - seaborn
-  - scikit-learn
-  - scipy
-  - torchvision
-  - tensorboard
-  - tqdm
-  - typer
+    - tqdm
+    - xgboost
+  - python=3.12
