@@ -11,6 +11,8 @@ fi
 # Path to your oh-my-zsh installation.
 if [[ "$(hostname)" == "York"*"PC" ]]; then
     export ZSH="/home/yorkyou/.oh-my-zsh"
+elif [[ "$(hostname)" == "Z423"* ]]; then
+    export ZSH="/root/.oh-my-zsh"
 else
     export ZSH="/Users/yorkyou/.oh-my-zsh"
 fi
@@ -130,31 +132,16 @@ if [[ "$(hostname)" == "York"*"PC" ]]; then
     PROXY_HTTP="http://${WINDOWS_IP}:7890"
     PROXY_SOCKS5="${WINDOWS_IP}:7890"
     
-    # Git & SSH for Git proxy
-    proxy_git () {
-      git config --global http.https://github.com.proxy ${PROXY_HTTP}
-      if ! grep -qF "Host github.com" ~/.ssh/config ; then
-        echo "Host github.com" >> ~/.ssh/config
-        echo "  User git" >> ~/.ssh/config
-        echo "  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" >> ~/.ssh/config
-      else
-        lino=$(($(awk '/Host github.com/{print NR}'  ~/.ssh/config)+2))
-        sed -i "${lino}c\  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" ~/.ssh/config
-      fi
-    }
-    
     # Set proxy
     set_proxy () {
       export http_proxy="${PROXY_HTTP}"
       export https_proxy="${PROXY_HTTP}"
-      proxy_git
     }
     
     # Unset proxy
     unset_proxy () {
       unset http_proxy
       unset https_proxy
-      git config --global --unset http.https://github.com.proxy
     }
 
     # Set alias
@@ -176,35 +163,55 @@ if [[ "$(hostname)" == "York"*"PC" ]]; then
     unset __conda_setup
     # <<< conda initialize <<<
 
-else
+elif [[ "$(hostname)" == "Z423"* ]]; then
     PROXY_HTTP="http://127.0.0.1:7890"
     PROXY_SOCKS5="127.0.0.1:7890"
-    
-    # Git & SSH for Git proxy
-    proxy_git () {
-      git config --global http.https://github.com.proxy ${PROXY_HTTP}
-      if ! grep -qF "Host github.com" ~/.ssh/config ; then
-        echo "Host github.com" >> ~/.ssh/config
-        echo "  User git" >> ~/.ssh/config
-        echo "  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" >> ~/.ssh/config
-      else
-        lino=$(($(awk '/Host github.com/{print NR}'  ~/.ssh/config)+2))
-        sed -i "${lino}c\  ProxyCommand nc -X 5 -x ${PROXY_SOCKS5} %h %p" ~/.ssh/config
-      fi
-    }
     
     # Set proxy
     set_proxy () {
       export http_proxy="${PROXY_HTTP}"
       export https_proxy="${PROXY_HTTP}"
-      proxy_git
     }
     
     # Unset proxy
     unset_proxy () {
       unset http_proxy
       unset https_proxy
-      git config --global --unset http.https://github.com.proxy
+    }
+
+    # Set alias
+    alias proxy=set_proxy
+    alias deproxy=unset_proxy
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/root/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/root/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "/root/miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/root/miniconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+else
+    PROXY_HTTP="http://127.0.0.1:7890"
+    PROXY_SOCKS5="127.0.0.1:7890"
+    
+    # Set proxy
+    set_proxy () {
+      export http_proxy="${PROXY_HTTP}"
+      export https_proxy="${PROXY_HTTP}"
+    }
+    
+    # Unset proxy
+    unset_proxy () {
+      unset http_proxy
+      unset https_proxy
     }
 
     # Set alias
@@ -226,3 +233,4 @@ else
     unset __conda_setup
     # <<< conda initialize <<<
 fi
+
