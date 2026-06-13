@@ -198,6 +198,9 @@ elif [[ "$(hostname)" == "Z423"* ]]; then
     unset __conda_setup
     # <<< conda initialize <<<
 
+    export SCRCPY_SERVER_PATH=/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools/scrcpy-server
+    export PATH=$PATH:/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools
+
 else
     PROXY_HTTP="http://127.0.0.1:7890"
     PROXY_SOCKS5="127.0.0.1:7890"
@@ -232,9 +235,6 @@ else
     fi
     unset __conda_setup
     # <<< conda initialize <<<
-
-    export SCRCPY_SERVER_PATH=/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools/scrcpy-server
-    export PATH=$PATH:/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools
 
 fi
 
