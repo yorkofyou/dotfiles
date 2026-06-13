@@ -164,8 +164,8 @@ if [[ "$(hostname)" == "York"*"PC" ]]; then
     # <<< conda initialize <<<
 
 elif [[ "$(hostname)" == "Z423"* ]]; then
-    PROXY_HTTP="http://127.0.0.1:7890"
-    PROXY_SOCKS5="127.0.0.1:7890"
+    PROXY_HTTP="http://192.168.31.29:7890"
+    PROXY_SOCKS5="192.168.31.29:7890"
     
     # Set proxy
     set_proxy () {
@@ -185,14 +185,14 @@ elif [[ "$(hostname)" == "Z423"* ]]; then
 
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/root/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    __conda_setup="$('/data_n001/data/udata/real/13655775533/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     else
-        if [ -f "/root/miniconda3/etc/profile.d/conda.sh" ]; then
-# . "/root/miniconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
+        if [ -f "/data_n001/data/udata/real/13655775533/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "/data_n001/data/udata/real/13655775533/miniconda3/etc/profile.d/conda.sh"
         else
-            export PATH="/root/miniconda3/bin:$PATH"
+            export PATH="/data_n001/data/udata/real/13655775533/miniconda3/bin:$PATH"
         fi
     fi
     unset __conda_setup
@@ -233,4 +233,8 @@ else
     unset __conda_setup
     # <<< conda initialize <<<
 
+    export SCRCPY_SERVER_PATH=/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools/scrcpy-server
+    export PATH=$PATH:/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools
+
 fi
+
