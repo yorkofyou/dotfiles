@@ -17,6 +17,11 @@ else
     export ZSH="/Users/yorkyou/.oh-my-zsh"
 fi
 
+# Load environment variables
+if [ -f ~/.env ]; then
+    source ~/.env
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -185,14 +190,14 @@ elif [[ "$(hostname)" == "Z423"* ]]; then
 
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/data_n001/data/udata/real/13655775533/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    __conda_setup="$("$DATA_ROOT/miniconda3/bin/conda" "shell.bash" "hook" 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     else
-        if [ -f "/data_n001/data/udata/real/13655775533/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "/data_n001/data/udata/real/13655775533/miniconda3/etc/profile.d/conda.sh"
+        if [ -f "$DATA_ROOT/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "$DATA_ROOT/miniconda3/etc/profile.d/conda.sh"
         else
-            export PATH="/data_n001/data/udata/real/13655775533/miniconda3/bin:$PATH"
+            export PATH="$DATA_ROOT/miniconda3/bin:$PATH"
         fi
     fi
     unset __conda_setup
