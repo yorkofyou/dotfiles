@@ -13,6 +13,8 @@ if [[ "$(hostname)" == "York"*"PC" ]]; then
     export ZSH="/home/yorkyou/.oh-my-zsh"
 elif [[ "$(hostname)" == "Z423"* ]]; then
     export ZSH="/root/.oh-my-zsh"
+elif [[ "$(hostname)" == "Yorks-Mac-mini"* ]]; then
+    export ZSH="/Users/yorkyou/.oh-my-zsh"
 else
     export ZSH="/Users/yorkyou/.oh-my-zsh"
 fi
@@ -131,18 +133,19 @@ setopt HIST_IGNORE_SPACE
 if [[ "$(uname)" == "Linux" ]]; then
     export GPG_TTY="$(tty)"
 fi
+
 if [[ "$(hostname)" == "York"*"PC" ]]; then
     # Fetch Windows ip address inside WSL environment
     WINDOWS_IP=$(ip route | grep default | awk '{print $3}')
     PROXY_HTTP="http://${WINDOWS_IP}:7890"
     PROXY_SOCKS5="${WINDOWS_IP}:7890"
-    
+
     # Set proxy
     set_proxy () {
       export http_proxy="${PROXY_HTTP}"
       export https_proxy="${PROXY_HTTP}"
     }
-    
+
     # Unset proxy
     unset_proxy () {
       unset http_proxy
@@ -171,13 +174,13 @@ if [[ "$(hostname)" == "York"*"PC" ]]; then
 elif [[ "$(hostname)" == "Z423"* ]]; then
     PROXY_HTTP="http://192.168.31.29:7890"
     PROXY_SOCKS5="192.168.31.29:7890"
-    
+
     # Set proxy
     set_proxy () {
       export http_proxy="${PROXY_HTTP}"
       export https_proxy="${PROXY_HTTP}"
     }
-    
+
     # Unset proxy
     unset_proxy () {
       unset http_proxy
@@ -190,7 +193,7 @@ elif [[ "$(hostname)" == "Z423"* ]]; then
 
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$("$DATA_ROOT/miniconda3/bin/conda" "shell.bash" "hook" 2> /dev/null)"
+    __conda_setup="$("$DATA_ROOT/miniconda3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     else
@@ -206,16 +209,86 @@ elif [[ "$(hostname)" == "Z423"* ]]; then
     export SCRCPY_SERVER_PATH=/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools/scrcpy-server
     export PATH=$PATH:/Applications/极空间.app/Contents/Resources/app.asar.unpacked/bin/platform-tools
 
-else
-    PROXY_HTTP="http://127.0.0.1:7890"
-    PROXY_SOCKS5="127.0.0.1:7890"
-    
+elif [[ "$(hostname)" == "Yorks-Mac-mini"* ]]; then
+    PROXY_HTTP="http://192.168.31.29:7890"
+    PROXY_SOCKS5="192.168.31.29:7890"
+
     # Set proxy
     set_proxy () {
       export http_proxy="${PROXY_HTTP}"
       export https_proxy="${PROXY_HTTP}"
     }
-    
+
+    # Unset proxy
+    unset_proxy () {
+      unset http_proxy
+      unset https_proxy
+    }
+
+    # Set alias
+    alias proxy=set_proxy
+    alias deproxy=unset_proxy
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+            . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+elif [[ "$(hostname)" == "Yorks-MacBook"* ]]; then
+    PROXY_HTTP="http://127.0.0.1:7890"
+    PROXY_SOCKS5="127.0.0.1:7890"
+
+    # Set proxy
+    set_proxy () {
+      export http_proxy="${PROXY_HTTP}"
+      export https_proxy="${PROXY_HTTP}"
+    }
+
+    # Unset proxy
+    unset_proxy () {
+      unset http_proxy
+      unset https_proxy
+    }
+
+    # Set alias
+    alias proxy=set_proxy
+    alias deproxy=unset_proxy
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+            . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+else
+    PROXY_HTTP="http://127.0.0.1:7890"
+    PROXY_SOCKS5="127.0.0.1:7890"
+
+    # Set proxy
+    set_proxy () {
+      export http_proxy="${PROXY_HTTP}"
+      export https_proxy="${PROXY_HTTP}"
+    }
+
     # Unset proxy
     unset_proxy () {
       unset http_proxy
@@ -242,4 +315,3 @@ else
     # <<< conda initialize <<<
 
 fi
-
